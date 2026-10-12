@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Loader2,
   Mail,
+  ArrowUpRight,
   MapPin,
   Phone,
   Send,
@@ -14,12 +15,14 @@ import {
 import BlurFade from '../ui/blur-fade';
 import BorderBeam from '../ui/border-beam';
 import DotPattern from '../ui/dot-pattern';
-import { contact, profile } from '../../content';
-import { cn } from '../../lib/utils';
+import { TechIcon } from '../ui/tech-icons';
+import { useContent } from '../../i18n';
+import { cn, whatsappUrl } from '../../lib/utils';
 
 const EMPTY = { name: '', email: '', subject: '', message: '' };
 
 export default function Contact() {
+  const { contact, profile } = useContent();
   const [form, setForm] = useState(EMPTY);
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
   const [feedback, setFeedback] = useState('');
@@ -82,7 +85,7 @@ export default function Contact() {
       className="mx-auto max-w-6xl scroll-mt-28 px-6 py-20 sm:py-28"
     >
       <BlurFade>
-        <div className="relative overflow-hidden rounded-[2rem] border border-white/9 bg-ink-800/45 p-8 backdrop-blur-xl sm:p-12">
+        <div className="relative overflow-hidden rounded-[2rem] border border-fg/9 bg-ink-800/45 p-8 backdrop-blur-xl sm:p-12">
           <DotPattern className="opacity-40 [mask-image:radial-gradient(520px_circle_at_top_right,white,transparent)]" />
           <BorderBeam size={320} duration={16} />
 
@@ -101,18 +104,40 @@ export default function Contact() {
                 {contact.body}
               </p>
 
-              <ul className="mt-8 space-y-3">
+              <a
+                href={whatsappUrl(profile.whatsapp, contact.whatsapp.message)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-7 flex items-center justify-between gap-4 rounded-2xl border border-[#25D366]/30 bg-[#25D366]/10 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#25D366]/55 hover:bg-[#25D366]/15"
+              >
+                <span className="flex items-center gap-3">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#25D366] text-white">
+                    <TechIcon slug="whatsapp" className="size-5" mono />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-semibold text-ink-50">
+                      {contact.whatsapp.cta}
+                    </span>
+                    <span className="block text-xs text-ink-300">
+                      {contact.whatsapp.note}
+                    </span>
+                  </span>
+                </span>
+                <ArrowUpRight className="size-4 shrink-0 text-ink-200 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:-scale-x-100" />
+              </a>
+
+              <ul className="mt-6 space-y-3">
                 {channels.map(({ icon: Icon, label, value, href }) => {
                   const Body = (
                     <>
-                      <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-white/8 bg-white/4 text-accent-300 transition-colors duration-200 group-hover:border-accent-500/30 group-hover:bg-accent-500/10">
+                      <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-fg/8 bg-fg/4 text-accent-300 transition-colors duration-200 group-hover:border-accent-500/30 group-hover:bg-accent-500/10">
                         <Icon className="size-4" />
                       </span>
                       <span className="min-w-0">
                         <span className="block font-mono text-[10px] tracking-wider text-ink-400">
                           {label}
                         </span>
-                        <span className="block truncate text-sm font-medium text-ink-100">
+                        <span dir="ltr" className="block truncate text-sm font-medium text-ink-100 rtl:text-end">
                           {value}
                         </span>
                       </span>
@@ -124,7 +149,7 @@ export default function Contact() {
                       {href ? (
                         <a
                           href={href}
-                          className="group flex items-center gap-3 rounded-xl p-1 transition-colors duration-200 hover:bg-white/3"
+                          className="group flex items-center gap-3 rounded-xl p-1 transition-colors duration-200 hover:bg-fg/3"
                         >
                           {Body}
                         </a>
@@ -137,6 +162,7 @@ export default function Contact() {
                   );
                 })}
               </ul>
+
             </div>
 
             {/* ------------------------------------------------------ Form */}
@@ -215,7 +241,7 @@ export default function Contact() {
                   ) : (
                     <>
                       {contact.submit}
-                      <Send className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <Send className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:-scale-x-100" />
                     </>
                   )}
                 </button>
@@ -248,8 +274,8 @@ function Field({ name, config, as = 'input', className, ...props }) {
         required
         placeholder={config.placeholder}
         className={cn(
-          'w-full rounded-xl border border-white/8 bg-white/3 px-4 py-2.5 text-sm text-white transition-all duration-200 placeholder:text-ink-500',
-          'focus:border-accent-500 focus:bg-white/5 focus:ring-1 focus:ring-accent-500 focus:outline-none',
+          'w-full rounded-xl border border-fg/8 bg-fg/3 px-4 py-2.5 text-sm text-ink-50 transition-all duration-200 placeholder:text-ink-500',
+          'focus:border-accent-500 focus:bg-fg/5 focus:ring-1 focus:ring-accent-500 focus:outline-none',
           as === 'textarea' && 'resize-none',
           className
         )}

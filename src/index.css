@@ -29,6 +29,10 @@
   --color-ink-100: #d9dde4; /* primary body text      */
   --color-ink-50: #f2f4f7; /* headings               */
 
+  /* -- Foreground overlay: hairlines, glass tints, faint fills. White in
+        dark mode, near-black in light mode, so `border-fg/8` works in both. */
+  --color-fg: #ffffff;
+
   /* -- Accent: electric indigo (the ONLY brand hue) --------------------- */
   --color-accent-50: #eeedff;
   --color-accent-100: #e0deff;
@@ -126,12 +130,86 @@
 }
 
 /* ==========================================================================
+   LIGHT THEME
+   The whole UI is built on the ink scale + `fg` overlays, so light mode is a
+   re-mapping of tokens, not a second set of classes. The ink scale inverts
+   (950 = page, 50 = headings); accents shift darker so text-accent-300/400
+   keep contrast on white. `.force-dark` pins a subtree (the terminal) to the
+   dark tokens in either theme.
+   ========================================================================== */
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --color-ink-950: #f6f7fa;
+  --color-ink-900: #eef0f4;
+  --color-ink-850: #e9ecf1;
+  --color-ink-800: #ffffff;
+  --color-ink-700: #f2f3f7;
+  --color-ink-600: #d3d8e0;
+  --color-ink-500: #a9b0bd;
+  --color-ink-400: #646c7a;
+  --color-ink-300: #4f5664;
+  --color-ink-200: #3a404b;
+  --color-ink-100: #232831;
+  --color-ink-50: #0c0f14;
+  --color-fg: #0c0f14;
+
+  --color-accent-50: #2c267c;
+  --color-accent-100: #362f9c;
+  --color-accent-200: #4238c4;
+  --color-accent-300: #5147e8;
+  --color-accent-400: #5a51f5;
+  --color-accent-900: #d9d6ff;
+  --color-accent-950: #eeedff;
+
+  --color-signal-400: #047857;
+  --color-signal-500: #059669;
+  --color-signal-950: #e7f8f0;
+}
+
+:root,
+.force-dark {
+  color-scheme: dark;
+}
+
+.force-dark {
+  --color-ink-950: #07080a;
+  --color-ink-900: #0a0c10;
+  --color-ink-850: #0d1015;
+  --color-ink-800: #12151c;
+  --color-ink-700: #1a1e27;
+  --color-ink-600: #262b36;
+  --color-ink-500: #3a4150;
+  --color-ink-400: #5b6474;
+  --color-ink-300: #8b93a3;
+  --color-ink-200: #b4bac6;
+  --color-ink-100: #d9dde4;
+  --color-ink-50: #f2f4f7;
+  --color-fg: #ffffff;
+  --color-accent-300: #a5a0ff;
+  --color-accent-400: #8880ff;
+  --color-signal-400: #34d399;
+}
+
+/* Arabic: a typeface with real Arabic glyphs, and no negative tracking —
+   letter-spacing breaks the joins between Arabic letters. */
+html[lang='ar'] {
+  --font-sans: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', ui-sans-serif,
+    system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Sans Arabic', ui-monospace,
+    monospace;
+}
+html[lang='ar'] body * {
+  letter-spacing: 0 !important;
+}
+
+/* ==========================================================================
    BASE
    ========================================================================== */
 
 @layer base {
   * {
-    border-color: --alpha(var(--color-white) / 7%);
+    border-color: --alpha(var(--color-fg) / 7%);
   }
 
   html {
@@ -165,7 +243,7 @@
 
   ::selection {
     background-color: --alpha(var(--color-accent-500) / 30%);
-    color: var(--color-white);
+    color: var(--color-ink-50);
   }
 
   :focus-visible {
@@ -209,13 +287,13 @@
 @utility glass {
   background-color: --alpha(var(--color-ink-800) / 55%);
   backdrop-filter: blur(20px) saturate(140%);
-  border: 1px solid --alpha(var(--color-white) / 7%);
+  border: 1px solid --alpha(var(--color-fg) / 7%);
 }
 
 @utility glass-strong {
   background-color: --alpha(var(--color-ink-900) / 82%);
   backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid --alpha(var(--color-white) / 9%);
+  border: 1px solid --alpha(var(--color-fg) / 9%);
 }
 
 /* Hairline gradient border — the primary depth cue of this design. */
@@ -229,10 +307,10 @@
     padding: 1px;
     background: linear-gradient(
       160deg,
-      --alpha(var(--color-white) / 14%),
+      --alpha(var(--color-fg) / 14%),
       transparent 40%,
       transparent 60%,
-      --alpha(var(--color-white) / 4%)
+      --alpha(var(--color-fg) / 4%)
     );
     mask:
       linear-gradient(#000 0 0) content-box exclude,
@@ -259,12 +337,12 @@
   background-image:
     linear-gradient(
       to right,
-      --alpha(var(--color-white) / 4%) 1px,
+      --alpha(var(--color-fg) / 4%) 1px,
       transparent 1px
     ),
     linear-gradient(
       to bottom,
-      --alpha(var(--color-white) / 4%) 1px,
+      --alpha(var(--color-fg) / 4%) 1px,
       transparent 1px
     );
   background-size: 56px 56px;

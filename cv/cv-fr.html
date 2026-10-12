@@ -1,0 +1,187 @@
+<!doctype html>
+<!--
+  CV source — Hamza Elhatimy (FR). Edit this file, then rebuild the PDF and
+  preview image with:  bash cv/build.sh
+  Outputs: public/cv-hamza-elhatimy.pdf and public/cv-preview.webp
+-->
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>CV Hamza Elhatimy — Développeur Full Stack & Media Buyer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  @page { size: A4; margin: 0; }
+  :root {
+    --navy: #14385f;
+    --ink: #1c2330;
+    --muted: #5a6475;
+    --line: #d9dee6;
+    --accent: #635bff;
+    --green: #0f8a5f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; }
+  body {
+    width: 210mm;
+    padding: 9mm 12mm 8mm;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-size: 8.8pt;
+    line-height: 1.32;
+    color: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* Header */
+  header { display: flex; gap: 6mm; align-items: center; padding-bottom: 3.4mm; border-bottom: 2px solid var(--navy); }
+  header img { width: 24mm; height: 24mm; border-radius: 50%; object-fit: cover; border: 2px solid var(--navy); }
+  h1 { font-size: 21pt; font-weight: 800; letter-spacing: 0.02em; color: var(--navy); line-height: 1.05; }
+  .role { margin-top: 1.2mm; font-size: 11.2pt; font-weight: 600; color: var(--ink); }
+  .contact { margin-top: 2mm; color: var(--muted); font-size: 8.6pt; }
+  .contact span + span::before { content: '|'; margin: 0 1.6mm; color: var(--line); }
+  .contact a { color: var(--navy); font-weight: 500; }
+
+  /* Sections */
+  section { margin-top: 3mm; }
+  h2 {
+    font-size: 10.4pt; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--navy); padding-bottom: 1mm; margin-bottom: 1.8mm; border-bottom: 1px solid var(--line);
+  }
+  .summary { color: var(--ink); }
+
+  .item + .item { margin-top: 1.8mm; }
+  .item-head { display: flex; justify-content: space-between; gap: 4mm; font-weight: 700; }
+  .item-head .date { font-weight: 600; color: var(--navy); white-space: nowrap; }
+  .item-sub { font-style: italic; color: var(--muted); }
+  .item-sub a { color: var(--navy); font-style: normal; font-weight: 500; }
+  ul { margin-top: 0.8mm; padding-left: 4.2mm; }
+  li { margin-top: 0.35mm; }
+  li::marker { color: var(--navy); }
+  strong { font-weight: 700; }
+  .kpi { color: var(--green); font-weight: 700; }
+
+  .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .project { border: 1px solid var(--line); border-radius: 2.5mm; padding: 2.4mm 3mm; }
+  .project .name { font-weight: 700; font-size: 9.8pt; color: var(--navy); }
+  .project .url { font-size: 8pt; color: var(--accent); font-weight: 500; }
+  .project p { margin-top: 1mm; }
+  .stack { margin-top: 1.2mm; font-size: 8pt; color: var(--muted); }
+
+  .skills p + p { margin-top: 0.9mm; }
+  .skills strong { color: var(--ink); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+</style>
+</head>
+<body>
+  <header>
+    <img src="photo.jpg" alt="Hamza Elhatimy" />
+    <div>
+      <h1>HAMZA ELHATIMY</h1>
+      <p class="role">Développeur Full Stack Web (MERN) &amp; Media Buyer Meta Ads</p>
+      <p class="contact">
+        <span>Deroua (Grand Casablanca), Maroc</span><span>+212 6 09 51 01 58</span><span><a href="mailto:hamzaelhatimy7@gmail.com">hamzaelhatimy7@gmail.com</a></span><span>20 ans</span>
+      </p>
+      <p class="contact">
+        <span>Portfolio : <a href="https://hamzaautomate.site">hamzaautomate.site</a></span><span><a href="https://linkedin.com/in/hamza-elhatimy">linkedin.com/in/hamza-elhatimy</a></span><span><a href="https://github.com/ELHATIMY-HAMZA">github.com/ELHATIMY-HAMZA</a></span>
+      </p>
+    </div>
+  </header>
+
+  <section>
+    <h2>Profil professionnel</h2>
+    <p class="summary">
+      Développeur Full Stack (MERN) et Media Buyer : je crée des sites et applications web pensés pour convertir, je pilote des
+      campagnes Meta Ads orientées leads et j'automatise le suivi des prospects avec n8n et l'IA. Habitué aux clients du Maroc
+      et du Golfe, je suis les indicateurs qui comptent : coût par lead, conversions et retour sur investissement.
+    </p>
+  </section>
+
+  <section>
+    <h2>Expériences professionnelles</h2>
+
+    <div class="item">
+      <div class="item-head"><span>Media Buyer Freelance – Meta Ads</span><span class="date">2026 – Présent</span></div>
+      <p class="item-sub">Freelance | Location de voitures &amp; e-commerce | Arabie saoudite, Émirats, Qatar, France, Pays-Bas, Maroc</p>
+      <ul>
+        <li>Campagne Arabie saoudite (location de voitures) : <span class="kpi">57 conversations WhatsApp à 0,78 € par conversation</span>, 4 893 personnes touchées avec un budget de 10 €/jour.</li>
+        <li>Création et gestion de campagnes Meta Ads (messages WhatsApp/Messenger, leads) pour plusieurs agences de location de voitures.</li>
+        <li>Campagnes Meta pour la vente de produits e-commerce au Maroc.</li>
+        <li>Ciblage (géographique, centres d'intérêt, audiences similaires, retargeting) et tests A/B des visuels, textes et audiences.</li>
+        <li>Suivi des KPI (CPM, CTR, CPC, coût par lead), ajustement des budgets et reporting régulier aux clients.</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span>Graphiste &amp; Créateur de contenu Réseaux Sociaux – Freelance</span><span class="date">2025 – 6 mois</span></div>
+      <p class="item-sub">Upwork.com | Clients du marché GCC (pays du Golfe)</p>
+      <ul>
+        <li>Conception de publications Instagram et Facebook adaptées à l'identité de marque et au public du Golfe (Canva).</li>
+        <li>Communication directe avec des clients internationaux, respect des délais et des briefs créatifs.</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <div class="item-head"><span>Autres expériences</span><span class="date">2024 – 2025</span></div>
+      <p>Agent de préparation logistique, <em>Marjane Nouaceur</em> (4 mois) · Accueil et conseil client, <em>Bouhker Bois Deroua</em> (6 mois)</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projets</h2>
+    <div class="projects">
+      <div class="project">
+        <p class="name">Shortlist — Analyse de CV par IA</p>
+        <a class="url" href="https://shortlist-ai-cv-analyser.vercel.app/">shortlist-ai-cv-analyser.vercel.app</a>
+        <p>Application web qui note un CV (PDF, Word ou photo via OCR) sur 8 critères pondérés, montre les lignes justifiant chaque point et le compare à une offre d'emploi.</p>
+        <p class="stack">React · Vite · Node.js · Supabase · Clerk · Tesseract OCR · Vercel</p>
+      </div>
+      <div class="project">
+        <p class="name">Dayweave — Planificateur de tâches</p>
+        <a class="url" href="https://dayweave-todo-list-app.vercel.app/">dayweave-todo-list-app.vercel.app</a>
+        <p>Application full-stack de planification quotidienne : budget de temps, priorités des tâches et sessions de travail concentré.</p>
+        <p class="stack">MongoDB · Express · React · Node.js · Clerk · Vercel</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="skills">
+    <h2>Compétences</h2>
+    <p><strong>Développement Web Full Stack :</strong> MERN (MongoDB, Express.js, React, Node.js), JavaScript, HTML5, CSS3, Tailwind CSS, API REST, Supabase, Clerk, Git, GitHub, Responsive Design</p>
+    <p><strong>Déploiement &amp; DevOps :</strong> Vercel, Docker, DigitalOcean</p>
+    <p><strong>Media Buying &amp; Marketing :</strong> Meta Ads Manager (Facebook, Instagram), TikTok Ads, Meta Pixel, ciblage, retargeting, génération de leads, A/B testing, analyse des KPI, gestion de budget</p>
+    <p><strong>Automatisation &amp; IA :</strong> n8n, Claude Code, Codex (agents IA), Canva, Microsoft Excel</p>
+  </section>
+
+  <section>
+    <h2>Formation</h2>
+    <div class="item">
+      <div class="item-head"><span>Formation Développement Web Full Stack</span><span class="date">En cours</span></div>
+      <p class="item-sub">Centre de Formation Wings Tech, Nouaceur</p>
+    </div>
+    <div class="item">
+      <div class="item-head"><span>Baccalauréat – Sciences Physiques</span><span class="date">2024</span></div>
+    </div>
+    <div class="item">
+      <div class="item-head"><span>Marketing Digital – Autoformation</span><span class="date"></span></div>
+      <p class="item-sub">Publicité Meta Ads et TikTok Ads, création de sites web</p>
+    </div>
+  </section>
+
+  <section class="two-col">
+    <div>
+      <h2>Langues</h2>
+      <p><strong>Arabe :</strong> langue maternelle</p>
+      <p><strong>Français :</strong> niveau intermédiaire</p>
+      <p><strong>Anglais :</strong> niveau intermédiaire</p>
+    </div>
+    <div>
+      <h2>Qualités personnelles</h2>
+      <p>Autonomie et sens de l'organisation · Rigueur et respect des délais · Aisance relationnelle avec les clients · Adaptabilité et apprentissage rapide</p>
+    </div>
+  </section>
+</body>
+</html>

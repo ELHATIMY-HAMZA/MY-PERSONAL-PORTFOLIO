@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import BrandMark from '../ui/brand-mark';
+import LangSwitcher from '../ui/lang-switcher';
+import ThemeToggle from '../ui/theme-toggle';
 import { cn } from '../../lib/utils';
-import { nav, navCta, profile } from '../../content';
+import { useContent } from '../../i18n';
 
 /**
  * Navbar.
@@ -17,6 +19,7 @@ import { nav, navCta, profile } from '../../content';
  * shared `layoutId` instead of toggling classes.
  */
 export default function Navbar() {
+  const { nav, navCta, profile, ui } = useContent();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   // Empty, not '#about': the observer band never matches at scroll-top, so a
@@ -49,7 +52,7 @@ export default function Navbar() {
 
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [nav]);
 
   // Lock body scroll while the mobile sheet is open.
   useEffect(() => {
@@ -68,15 +71,15 @@ export default function Navbar() {
         className={cn(
           'flex w-full items-center justify-between gap-3 rounded-full px-3 py-2 transition-all duration-500 ease-out-expo',
           scrolled
-            ? 'glass-strong max-w-3xl shadow-2xl shadow-black/50'
+            ? 'glass-strong max-w-4xl shadow-2xl shadow-black/50'
             : 'max-w-5xl border border-transparent bg-transparent'
         )}
       >
         {/* Brand */}
         <a
           href="#home"
-          className="group flex shrink-0 items-center gap-2.5 pl-1"
-          aria-label={`${profile.name} — home`}
+          className="group flex shrink-0 items-center gap-2.5 ps-1"
+          aria-label={`${profile.name} — ${ui.home}`}
         >
           <BrandMark className="size-10 transition-transform duration-300 ease-out-expo group-hover:scale-108" />
           <span className="hidden text-sm font-semibold text-ink-50 sm:block">
@@ -102,7 +105,7 @@ export default function Navbar() {
                   {isActive && (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 -z-10 rounded-full bg-white/7 ring-1 ring-white/8 ring-inset"
+                      className="absolute inset-0 -z-10 rounded-full bg-fg/7 ring-1 ring-fg/8 ring-inset"
                       transition={{
                         type: 'spring',
                         stiffness: 380,
@@ -118,31 +121,25 @@ export default function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
-          {/* Availability pill */}
-          <span className="hidden items-center gap-1.5 rounded-full border border-signal-500/25 bg-signal-950/50 px-2.5 py-1 text-[11px] font-medium text-signal-400 lg:inline-flex">
-            <span className="relative flex size-1.5">
-              <span className="animate-pulse-ring absolute inline-flex size-full rounded-full bg-signal-400" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-signal-400" />
-            </span>
-            {profile.availability}
-          </span>
+          <LangSwitcher className="hidden sm:inline-flex" />
+          <ThemeToggle />
 
           {/* Visible at every width: at 390px the bar was just a logo and a
               hamburger, with no direct path to contact. */}
           <a
             href="#contact"
-            className="group inline-flex items-center gap-1 rounded-full bg-ink-50 px-3.5 py-1.5 text-[13px] font-semibold text-ink-950 transition-all duration-200 hover:bg-white hover:shadow-lg hover:shadow-white/10 sm:px-4"
+            className="group inline-flex items-center gap-1 rounded-full bg-ink-50 px-3.5 py-1.5 text-[13px] font-semibold text-ink-950 transition-all duration-200 hover:bg-ink-100 hover:shadow-lg hover:shadow-fg/10 sm:px-4"
           >
-            {navCta.desktop}
-            <ArrowUpRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            {navCta}
+            <ArrowUpRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:-scale-x-100" />
           </a>
 
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            aria-label="Toggle Navigation Menu"
+            aria-label={ui.menu}
             aria-expanded={open}
-            className="grid size-9 place-items-center rounded-full border border-white/8 bg-white/5 text-ink-200 transition-colors hover:text-white md:hidden"
+            className="grid size-9 place-items-center rounded-full border border-fg/8 bg-fg/5 text-ink-200 transition-colors hover:text-ink-50 md:hidden"
           >
             {open ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
@@ -165,21 +162,22 @@ export default function Navbar() {
                   <a
                     href={href}
                     onClick={() => setOpen(false)}
-                    className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-ink-200 transition-colors hover:bg-white/5 hover:text-white"
+                    className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-ink-200 transition-colors hover:bg-fg/5 hover:text-ink-50"
                   >
                     {label}
-                    <ArrowUpRight className="size-3.5 text-ink-400" />
+                    <ArrowUpRight className="size-3.5 text-ink-400 rtl:-scale-x-100" />
                   </a>
                 </li>
               ))}
             </ul>
+            <LangSwitcher className="mt-2 w-full justify-center sm:hidden" />
             <a
               href="#contact"
               onClick={() => setOpen(false)}
               className="mt-2 flex items-center justify-center gap-1.5 rounded-xl bg-accent-600 px-4 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-accent-500"
             >
-              {navCta.mobile}
-              <ArrowUpRight className="size-3.5" />
+              {navCta}
+              <ArrowUpRight className="size-3.5 rtl:-scale-x-100" />
             </a>
           </motion.div>
         )}

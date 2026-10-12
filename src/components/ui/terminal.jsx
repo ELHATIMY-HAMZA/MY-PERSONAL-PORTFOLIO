@@ -80,15 +80,16 @@ export function TypingAnimation({
   );
 }
 
-export function Terminal({ children, className, title = 'zsh' }) {
+export function Terminal({ children, className, title = 'zsh', ...props }) {
   return (
     <div
+      {...props}
       className={cn(
-        'z-0 h-full max-h-[420px] w-full overflow-hidden rounded-panel border border-white/8 bg-ink-900/90 shadow-2xl shadow-black/60 backdrop-blur-xl',
+        'z-0 h-full max-h-[420px] w-full overflow-hidden rounded-panel border border-fg/8 bg-ink-900/90 shadow-2xl shadow-black/60 backdrop-blur-xl',
         className
       )}
     >
-      <div className="flex flex-col gap-y-2 border-b border-white/8 bg-ink-850/80 px-4 py-3">
+      <div className="flex flex-col gap-y-2 border-b border-fg/8 bg-ink-850/80 px-4 py-3">
         <div className="flex flex-row items-center gap-x-2">
           <div className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
           <div className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />

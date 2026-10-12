@@ -8,12 +8,15 @@ import Navbar from './components/sections/Navbar';
 import Hero from './components/sections/Hero';
 import About from './components/sections/About';
 import Skills from './components/sections/Skills';
+import Services from './components/sections/Services';
 import Projects from './components/sections/Projects';
+import Process from './components/sections/Process';
 import Contact from './components/sections/Contact';
 import Footer from './components/sections/Footer';
 
 import DotPattern from './components/ui/dot-pattern';
 import Spotlight from './components/ui/spotlight';
+import { useContent } from './i18n';
 
 /**
  * App.
@@ -25,6 +28,8 @@ import Spotlight from './components/ui/spotlight';
  * chain silently killed everything after it.
  */
 export default function App() {
+  const { ui } = useContent();
+
   /* Smooth scroll (Lenis) — replaces `scroll-behavior: smooth` + GSAP
      ScrollTrigger. Disabled automatically for reduced-motion users. */
   useEffect(() => {
@@ -85,9 +90,9 @@ export default function App() {
 
       <a
         href="#home"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[70] focus:rounded-full focus:bg-ink-50 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink-950"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:start-4 focus:z-[70] focus:rounded-full focus:bg-ink-50 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink-950"
       >
-        Skip to content
+        {ui.skip}
       </a>
 
       <Navbar />
@@ -105,9 +110,11 @@ export default function App() {
 
       <main>
         <Hero />
-        <About />
-        <Skills />
+        <Services />
         <Projects />
+        <Process />
+        <Skills />
+        <About />
         <Contact />
       </main>
 

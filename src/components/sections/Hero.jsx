@@ -7,7 +7,10 @@ import BlurFade from '../ui/blur-fade';
 import BorderBeam from '../ui/border-beam';
 import NumberTicker from '../ui/number-ticker';
 import AnimatedShinyText from '../ui/animated-shiny-text';
-import { devProfile, hero, profile } from '../../content';
+import CvLink from '../ui/cv-link';
+import { TechIcon } from '../ui/tech-icons';
+import { useContent } from '../../i18n';
+import { whatsappUrl } from '../../lib/utils';
 
 /**
  * Hero.
@@ -18,6 +21,7 @@ import { devProfile, hero, profile } from '../../content';
  * and the `developer-profile.ts` data becomes a quiet mono strip beneath it.
  */
 export default function Hero() {
+  const { hero, profile, devStack, contact, ui } = useContent();
   const [copied, setCopied] = useState(false);
 
   const copyEmail = async () => {
@@ -41,7 +45,7 @@ export default function Hero() {
           {/* The location half is hidden below `sm`: at 390px the role and the
               location each wrapped to two lines and the flag landed alone on a
               third. The location still appears in About and Contact. */}
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-white/8 bg-white/4 py-1.5 pr-3.5 pl-2 backdrop-blur-md">
+          <div className="inline-flex items-center gap-2.5 rounded-full border border-fg/8 bg-fg/4 py-1.5 ps-2 pe-3.5 backdrop-blur-md">
             <span className="relative flex size-2 shrink-0">
               <span className="animate-pulse-ring absolute inline-flex size-full rounded-full bg-accent-400" />
               <span className="relative inline-flex size-2 rounded-full bg-accent-400" />
@@ -49,10 +53,10 @@ export default function Hero() {
             <AnimatedShinyText className="text-xs font-medium whitespace-nowrap text-ink-200">
               {profile.role}
             </AnimatedShinyText>
-            <span className="hidden h-3 w-px bg-white/12 sm:block" />
+            <span className="hidden h-3 w-px bg-fg/12 sm:block" />
             <span className="hidden items-center gap-1 text-xs whitespace-nowrap text-ink-300 sm:flex">
               <MapPin className="size-3 shrink-0 text-ink-400" />
-              {profile.location} {profile.flag}
+              {profile.location} 🇲🇦
             </span>
           </div>
         </BlurFade>
@@ -82,39 +86,43 @@ export default function Hero() {
         <BlurFade delay={0.3} inView={false}>
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <a
-              href="#projects"
+              href={whatsappUrl(profile.whatsapp, contact.whatsapp.message)}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 rounded-full bg-accent-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-950/50 transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-500 hover:shadow-xl hover:shadow-accent-900/50"
             >
+              <TechIcon slug="whatsapp" className="size-4" mono />
               {hero.primaryCta}
-              <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
             </a>
             <a
-              href="#contact"
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/4 px-6 py-3 text-sm font-medium text-ink-100 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/16 hover:bg-white/8"
+              href="#work"
+              className="inline-flex items-center gap-2 rounded-full border border-fg/10 bg-fg/4 px-6 py-3 text-sm font-medium text-ink-100 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-fg/16 hover:bg-fg/8"
             >
               {hero.secondaryCta}
             </a>
           </div>
+          {/* CV right under the main actions, above the fold, for recruiters. */}
+          <CvLink className="mt-4" />
         </BlurFade>
 
         {/* Stats — now animated on scroll-in rather than static text */}
         <BlurFade delay={0.38} inView={false}>
-          <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-white/7 pt-7">
+          <dl className="mt-12 grid max-w-xl grid-cols-3 gap-6 border-t border-fg/7 pt-7">
             {hero.stats.map((stat) => (
-              <div key={stat.label}>
+              <div key={stat.id}>
                 <dt className="sr-only">{stat.label}</dt>
-                <dd className="font-mono text-2xl font-bold tracking-tight text-ink-50 sm:text-3xl">
-                  {stat.numeric !== null ? (
+                <dd dir="ltr" className="font-mono text-2xl font-bold tracking-tight text-ink-50 rtl:text-end sm:text-3xl">
+                  {stat.numeric != null ? (
                     <NumberTicker
                       value={stat.numeric}
-                      suffix={stat.suffix}
                       delay={0.5}
                     />
                   ) : (
                     stat.value
                   )}
                 </dd>
-                <p className="mt-1 text-xs text-ink-400">{stat.label}</p>
+                <p className="mt-1 text-xs leading-snug text-ink-400">{stat.label}</p>
               </div>
             ))}
           </dl>
@@ -127,7 +135,7 @@ export default function Hero() {
           <motion.div
             whileHover={{ y: -6 }}
             transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-            className="group relative mx-auto w-full max-w-[400px] overflow-hidden rounded-[1.75rem] border border-white/9 bg-ink-800/60 p-2 shadow-2xl shadow-black/60 backdrop-blur-xl"
+            className="group relative mx-auto w-full max-w-[400px] overflow-hidden rounded-[1.75rem] border border-fg/9 bg-ink-800/60 p-2 shadow-2xl shadow-black/60 backdrop-blur-xl"
           >
             <BorderBeam
               size={200}
@@ -159,21 +167,21 @@ export default function Hero() {
               <div className="absolute inset-x-0 bottom-0 h-2/5 bg-linear-to-t from-ink-950 via-ink-950/70 to-transparent" />
 
               {/* Availability chip */}
-              <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-ink-950/70 px-2.5 py-1 text-[10px] font-medium text-signal-400 backdrop-blur-md">
+              <div className="absolute top-3 start-3 inline-flex items-center gap-1.5 rounded-full border border-fg/10 bg-ink-950/70 px-2.5 py-1 text-[10px] font-medium text-signal-400 backdrop-blur-md">
                 <span className="relative flex size-1.5">
                   <span className="animate-pulse-ring absolute inline-flex size-full rounded-full bg-signal-400" />
                   <span className="relative inline-flex size-1.5 rounded-full bg-signal-400" />
                 </span>
-                {devProfile.statusValue}
+                {profile.statusValue}
               </div>
 
               {/* Name plate */}
               <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="text-base font-bold tracking-tight text-white">
+                <p className="text-base font-bold tracking-tight text-ink-50">
                   {profile.name}
                 </p>
                 <p className="mt-0.5 font-mono text-[11px] text-ink-300">
-                  {profile.role}
+                  {profile.roleLine}
                 </p>
               </div>
             </div>
@@ -181,10 +189,10 @@ export default function Hero() {
             {/* developer-profile.ts data, as a mono strip */}
             <div className="flex items-center justify-between gap-2 px-3 pt-3 pb-1.5">
               <div className="flex min-w-0 flex-wrap items-center gap-1">
-                {devProfile.stack.map((tech) => (
+                {devStack.map((tech) => (
                   <span
                     key={tech}
-                    className="rounded-md border border-white/8 bg-white/4 px-1.5 py-0.5 font-mono text-[10px] text-ink-200"
+                    className="rounded-md border border-fg/8 bg-fg/4 px-1.5 py-0.5 font-mono text-[10px] text-ink-200"
                   >
                     {tech}
                   </span>
@@ -193,22 +201,22 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={copyEmail}
-                aria-label={`Copy email address ${profile.email}`}
+                aria-label={`${ui.copyEmailAria} ${profile.email}`}
                 className={`inline-flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-1.5 font-mono text-[10px] transition-all duration-200 ${
                   copied
                     ? 'border-signal-500/40 bg-signal-950/60 text-signal-400'
-                    : 'border-white/8 bg-white/4 text-ink-300 hover:border-white/16 hover:text-white'
+                    : 'border-fg/8 bg-fg/4 text-ink-300 hover:border-fg/16 hover:text-ink-50'
                 }`}
               >
                 {copied ? (
                   <>
                     <Check className="size-3" />
-                    {devProfile.copyDone}
+                    {ui.copied}
                   </>
                 ) : (
                   <>
                     <Copy className="size-3" />
-                    {devProfile.copyIdle}
+                    {ui.copyEmail}
                   </>
                 )}
               </button>

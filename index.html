@@ -1,27 +1,58 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="fr" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#07080A" />
     <meta
       name="description"
-      content="Portfolio of Hamza Elhatimy, Full Stack Developer & AI Engineer based in Casablanca, Morocco."
+      content="Je crée des sites et applications web, je gère vos publicités Meta et TikTok, et j'automatise le suivi de vos prospects avec n8n et l'IA."
     />
-    <title>Hamza Elhatimy — Full Stack &amp; AI Engineer</title>
+    <title>Hamza Elhatimy — Développeur Web &amp; Growth à Casablanca</title>
 
-    <!-- Icons. Was an inline data-URI SVG that drew an indigo square with the
-         letters "HE" in system-ui; these are the real monogram. The .ico
-         carries 16/48 alongside 32 so pinned tabs and Windows shortcuts do
-         not upscale a 32px bitmap. -->
+    <!-- Resolve theme + language before first paint so neither flashes.
+         Theme: saved choice, else OS preference. Language: ?lang=, else saved
+         choice, else the first supported browser language, else French.
+         src/theme.js and src/i18n.jsx read these attributes back. -->
+    <script>
+      (function () {
+        var d = document.documentElement, ok = /^(en|fr|ar)$/, t, l;
+        try { t = localStorage.getItem('theme'); l = localStorage.getItem('lang'); } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        d.setAttribute('data-theme', t);
+        var q = new URLSearchParams(location.search).get('lang');
+        if (ok.test(q || '')) l = q;
+        if (!ok.test(l || '')) {
+          l = 'fr';
+          var n = navigator.languages || [navigator.language];
+          for (var i = 0; i < n.length; i++) {
+            var c = String(n[i] || '').slice(0, 2).toLowerCase();
+            if (ok.test(c)) { l = c; break; }
+          }
+        }
+        d.lang = l;
+        d.dir = l === 'ar' ? 'rtl' : 'ltr';
+        if (t === 'light') {
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.content = '#F6F7FA';
+        }
+      })();
+    </script>
+
+    <!-- Icons. favicon.svg is the source of truth (same geometry as
+         src/components/ui/brand-mark.jsx); the .ico (16/32/48), 192px PNG
+         and full-bleed apple-touch-icon are rendered from it. -->
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/logo.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>

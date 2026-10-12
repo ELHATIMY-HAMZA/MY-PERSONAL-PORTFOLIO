@@ -55,13 +55,13 @@ export default function DotPattern({
             x={0}
             y={0}
           >
-            <circle cx={cx} cy={cy} r={cr} className="fill-white/12" />
+            <circle cx={cx} cy={cy} r={cr} className="fill-fg/12" />
           </pattern>
           {glow && (
             <radialGradient id={`${id.current}-fade`}>
-              <stop offset="0%" stopColor="white" stopOpacity="1" />
-              <stop offset="70%" stopColor="white" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="white" stopOpacity="0" />
+              <stop offset="0%" style={{ stopColor: 'var(--color-fg)' }} stopOpacity="1" />
+              <stop offset="70%" style={{ stopColor: 'var(--color-fg)' }} stopOpacity="0.25" />
+              <stop offset="100%" style={{ stopColor: 'var(--color-fg)' }} stopOpacity="0" />
             </radialGradient>
           )}
         </defs>

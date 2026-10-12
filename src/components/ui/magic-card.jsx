@@ -17,7 +17,7 @@ export default function MagicCard({
   children,
   className,
   gradientSize = 260,
-  gradientColor = '#12151C',
+  gradientColor = 'var(--color-ink-700)',
   gradientOpacity = 0.85,
   gradientFrom = '#635BFF',
   gradientTo = '#8880FF',
@@ -56,7 +56,7 @@ export default function MagicCard({
     <div
       ref={cardRef}
       className={cn(
-        'group relative overflow-hidden rounded-panel border border-white/7 bg-ink-800/50 backdrop-blur-xl transition-colors duration-300 hover:border-white/12',
+        'group relative overflow-hidden rounded-panel border border-fg/7 bg-ink-800/50 backdrop-blur-xl transition-colors duration-300 hover:border-fg/12',
         className
       )}
     >

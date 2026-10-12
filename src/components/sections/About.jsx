@@ -3,13 +3,14 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import {
   Bot,
+  Briefcase,
   Clock,
   Cpu,
-  Database,
-  FileJson,
   Globe,
   Languages,
   Layers,
+  Megaphone,
+  MessageCircle,
   Sparkles,
   Workflow,
 } from 'lucide-react';
@@ -18,7 +19,7 @@ import BlurFade from '../ui/blur-fade';
 import MagicCard from '../ui/magic-card';
 import SectionHeading from '../ui/section-heading';
 import Terminal, { AnimatedSpan, TypingAnimation } from '../ui/terminal';
-import { about, devProfile, profile } from '../../content';
+import { useContent } from '../../i18n';
 import { cn } from '../../lib/utils';
 
 /* -------------------------------------------------------------------------- */
@@ -33,7 +34,7 @@ const Node = forwardRef(function Node({ className, children, label, title }, ref
         title={title}
         aria-label={title}
         className={cn(
-          'z-10 grid size-10 place-items-center rounded-xl border border-white/10 bg-ink-850 shadow-lg shadow-black/50',
+          'z-10 grid size-10 place-items-center rounded-xl border border-fg/10 bg-ink-850 shadow-lg shadow-black/50',
           className
         )}
       >
@@ -58,6 +59,8 @@ const Node = forwardRef(function Node({ className, children, label, title }, ref
  * overflowed and collided with the "Intelligent Pipelines" badge.
  */
 function PipelineDiagram() {
+  const { about } = useContent();
+  const { nodes, legend } = about.ai;
   const container = useRef(null);
   const src1 = useRef(null);
   const src2 = useRef(null);
@@ -67,25 +70,27 @@ function PipelineDiagram() {
 
   return (
     <div>
+      {/* Kept LTR in every language: it is a flow diagram, read source → sink. */}
       <div
         ref={container}
+        dir="ltr"
         className="relative flex h-[148px] w-full items-center justify-between px-1"
       >
         <div className="flex flex-col justify-between gap-3">
-          <Node ref={src1} title="External APIs">
+          <Node ref={src1} title={nodes.ads}>
+            <Megaphone className="size-4 text-accent-300" />
+          </Node>
+          <Node ref={src2} title={nodes.site}>
             <Globe className="size-4 text-accent-300" />
           </Node>
-          <Node ref={src2} title="Databases">
-            <Database className="size-4 text-accent-300" />
-          </Node>
-          <Node ref={src3} title="Unstructured documents">
-            <FileJson className="size-4 text-accent-300" />
+          <Node ref={src3} title={nodes.chat}>
+            <MessageCircle className="size-4 text-accent-300" />
           </Node>
         </div>
 
         <Node
           ref={core}
-          title="LLM agent / tool use"
+          title={nodes.agent}
           className="size-13 border-accent-500/40 bg-accent-950/70 shadow-accent-950"
         >
           <Bot className="size-5.5 text-accent-300" />
@@ -93,7 +98,7 @@ function PipelineDiagram() {
 
         <Node
           ref={out}
-          title="n8n workflow automation"
+          title={nodes.crm}
           className="border-signal-500/30 bg-signal-950/60"
         >
           <Workflow className="size-4 text-signal-400" />
@@ -119,8 +124,8 @@ function PipelineDiagram() {
         />
       </div>
 
-      <p className="mt-1 font-mono text-[9.5px] tracking-wide text-ink-400">
-        api · db · docs → agent → n8n
+      <p dir="ltr" className="mt-1 font-mono text-[9.5px] tracking-wide text-ink-400 rtl:text-end">
+        {legend}
       </p>
     </div>
   );
@@ -131,6 +136,7 @@ function PipelineDiagram() {
 /* -------------------------------------------------------------------------- */
 
 function CasablancaClock() {
+  const { about, profile } = useContent();
   const [time, setTime] = useState('');
 
   useEffect(() => {
@@ -150,7 +156,7 @@ function CasablancaClock() {
   }, []);
 
   return (
-    <div className="mt-4 flex items-center justify-between border-t border-white/7 pt-4">
+    <div className="mt-4 flex items-center justify-between border-t border-fg/7 pt-4">
       <span className="flex items-center gap-1.5 font-mono text-[11px] text-ink-400">
         <Clock className="size-3.5 text-accent-400" />
         {about.based.clockLabel}
@@ -170,6 +176,8 @@ function CasablancaClock() {
 /* -------------------------------------------------------------------------- */
 
 export default function About() {
+  const { about, profile, devStack } = useContent();
+
   return (
     <section
       id="about"
@@ -193,17 +201,21 @@ export default function About() {
                   <Layers className="size-5" />
                 </div>
                 <h3 className="mt-5 text-lg font-bold tracking-tight text-ink-50">
-                  {about.architecture.title}
+                  {about.story.title}
                 </h3>
                 <p className="mt-2.5 max-w-xl text-sm leading-relaxed text-ink-300">
-                  {about.architecture.body}
+                  {about.story.body}
+                </p>
+                <p className="mt-4 flex items-center gap-2 text-xs font-medium text-ink-100">
+                  <Briefcase className="size-3.5 shrink-0 text-accent-300" />
+                  {about.story.hiring}
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                {about.architecture.tags.map((tag) => (
+                {about.story.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-lg border border-white/8 bg-white/4 px-2.5 py-1 font-mono text-[11px] text-ink-200"
+                    className="rounded-lg border border-fg/8 bg-fg/4 px-2.5 py-1 font-mono text-[11px] text-ink-200"
                   >
                     {tag}
                   </span>
@@ -261,9 +273,11 @@ export default function About() {
 
         {/* Terminal */}
         <BlurFade delay={0.26} className="md:col-span-3">
+          {/* Code reads LTR and stays on the dark palette in either theme. */}
           <Terminal
-            title={devProfile.filename}
-            className="h-full max-h-none min-h-[300px]"
+            title="developer-profile.ts"
+            dir="ltr"
+            className="force-dark h-full max-h-none min-h-[300px] text-start"
           >
             <TypingAnimation className="text-ink-400" delay={200}>
               &gt; cat developer-profile.ts
@@ -294,10 +308,10 @@ export default function About() {
             <AnimatedSpan delay={2200} className="pl-4 text-ink-200">
               <span>
                 <span className="text-ink-400">stack:</span> [
-                {devProfile.stack.map((t, i) => (
+                {devStack.map((t, i) => (
                   <span key={t}>
                     <span className="text-amber-300">'{t}'</span>
-                    {i < devProfile.stack.length - 1 && ', '}
+                    {i < devStack.length - 1 && ', '}
                   </span>
                 ))}
                 ],
@@ -307,7 +321,7 @@ export default function About() {
               <span>
                 <span className="text-ink-400">status:</span>{' '}
                 <span className="text-signal-400">
-                  '{devProfile.statusValue}'
+                  '{profile.statusValue}'
                 </span>
               </span>
             </AnimatedSpan>
@@ -315,7 +329,7 @@ export default function About() {
               <span>{'};'}</span>
             </AnimatedSpan>
             <AnimatedSpan delay={2750} className="text-signal-400">
-              <span>✔ {devProfile.status}</span>
+              <span>✔ Status: Online</span>
             </AnimatedSpan>
             {/* Live caret so the trailing space reads as an open prompt
                 rather than an unfinished layout. */}
@@ -349,7 +363,7 @@ export default function About() {
                 {about.languages.chips.map((chip) => (
                   <span
                     key={chip}
-                    className="rounded-md border border-white/8 bg-white/4 px-2.5 py-1 font-mono text-[10px] text-ink-200"
+                    className="rounded-md border border-fg/8 bg-fg/4 px-2.5 py-1 font-mono text-[10px] text-ink-200"
                   >
                     {chip}
                   </span>
